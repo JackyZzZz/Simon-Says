@@ -20,17 +20,18 @@ BLUE_ON = (0, 0, 255)
 BLUE_OFF = (0, 0, 227)
 YELLOW_ON = (255, 255, 0)
 YELLOW_OFF = (227, 227, 0)
+
 # Pass in respective sounds for each color
 GREEN_SOUND = pygame.mixer.Sound("bell1.mp3") # bell1
-RED_SOUND = pygame.mixer.Sound() # bell2
-BLUE_SOUND = pygame.mixer.Sound() # bell3
-YELLOW_SOUND = pygame.mixer.Sound() # bell4
+RED_SOUND = pygame.mixer.Sound("bell2.mp3") # bell2
+BLUE_SOUND = pygame.mixer.Sound("bell3.mp3") # bell3
+YELLOW_SOUND = pygame.mixer.Sound("bell4.mp3") # bell4
 
 # Button Sprite Objects
 green = Button(GREEN_ON, GREEN_OFF, GREEN_SOUND, 10, 10)
-red =
-blue =
-yellow =
+red = Button(RED_ON, RED_OFF, RED_SOUND, 260, 10)
+blue = Button(BLUE_ON, BLUE_OFF, BLUE_SOUND, 260, 260)
+yellow = Button(YELLOW_ON, YELLOW_OFF, YELLOW_SOUND, 10, 260)
 
 # Variables
 colors = ["green", "red", "blue", "yellow"]
@@ -42,7 +43,10 @@ Draws game board
 '''
 def draw_board():
     # Call the draw method on all four button objects
-
+    green.draw(SCREEN)
+    red.draw(SCREEN)
+    blue.draw(SCREEN)
+    yellow.draw(SCREEN)
 
 
 '''
@@ -55,6 +59,13 @@ def cpu_turn():
     if choice == "green":
         green.update(SCREEN)
     # Check other three color options
+    if choice == "red":
+        red.update(SCREEN)
+    if choice == "blue":
+        blue.update(SCREEN)
+    if choice == "yellow":
+        yellow.update(SCREEN)
+
 
 
 
@@ -88,13 +99,28 @@ def player_turn():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1: # button click occured
                 # Grab the current position of mouse here
-                pos =
+                pos = pygame.mouse.get_pos()
                 if green.selected(pos): # green button was selected
-                green.update(SCREEN) # illuminate button
-                players_sequence.append("green") # add to player sequence
-                check_sequence(players_sequence) # check if player choice was correct
-                turn_time = time.time() # reset timer
-            # Check other three options
+                    green.update(SCREEN) # illuminate button
+                    players_sequence.append("green") # add to player sequence
+                    check_sequence(players_sequence) # check if player choice was correct
+                    turn_time = time.time() # reset timer
+                # Check other three options
+                if red.selected(pos):
+                    red.update(SCREEN)
+                    players_sequence.append("red")
+                    check_sequence(players_sequence)
+                    turn_time = time.time()
+                if blue.selected(pos):
+                    blue.update(SCREEN)
+                    players_sequence.append("blue")
+                    check_sequence(players_sequence)
+                    turn_time = time.time()
+                if yellow.selected(pos):
+                    yellow.update(SCREEN)
+                    players_sequence.append("yellow")
+                    check_sequence(players_sequence)
+                    turn_time = time.time()
 
     # If player does not select a button within 3 seconds then the game closes
     if not time.time() <= turn_time + 3:
