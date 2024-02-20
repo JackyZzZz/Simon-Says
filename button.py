@@ -13,20 +13,20 @@ class Button(pygame.sprite.Sprite):
         self.image = pygame.Surface((230, 230))
         self.image.fill(self.color_off)
         self.rect = self.image.get_rect()
-        self.color_on = color_on
-        self.color_off = color_off
         self.sound = sound
         # Assign x, y coordinates to the top left of the sprite
         self.rect.topleft = (x, y)
         self.clicked = False
+
+
     '''
     Draws button sprite onto pygame window when called
     '''
-
     def draw(self, screen):
         # blit image here
         screen.blit(self.image, (self.rect.x, self.rect.y))
         pygame.display.update()
+
     '''
     Used to check if given button is clicked/selected by player
     '''
@@ -35,6 +35,7 @@ class Button(pygame.sprite.Sprite):
         if self.rect.collidepoint(mouse_pos):
             return True
         return False
+
     '''
     Illuminates button selected and plays corresponding sound.
     Sets button color back to default color after being illuminated.
